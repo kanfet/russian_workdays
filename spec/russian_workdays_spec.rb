@@ -36,4 +36,22 @@ describe RussianWorkdays do
       expect(RussianWorkdays.work?(Date.parse(date))).to eq(true)
     end
   end
+
+  context 'when date non-exist in dates.yml' do
+
+    let(:date) { Date.new(2000, 5, 26) }
+
+    specify '"holiday?" returns false' do
+      expect(RussianWorkdays.holiday?(date)).to eq(false)
+    end
+
+    specify '"short?" returns false' do
+      expect(RussianWorkdays.short?(date)).to eq(false)
+    end
+
+    specify '"work?" returns true' do
+      expect(RussianWorkdays.work?(date)).to eq(true)
+    end
+
+  end
 end

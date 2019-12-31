@@ -5,12 +5,11 @@ class RussianWorkdays
     %w(holiday short).each do |method|
       define_method("#{method}?") do |date|
         raise ArgumentError.new('Argument must be Date object') unless date.is_a?(Date)
-        dates[date.year][method].include?(date)
+        public_send("#{method}s".to_sym, date.year).include?(date)
       end
 
       define_method("#{method}s") do |year|
-        has_data_for_year?(year)
-        dates[year][method]
+        (dates[year] || {})[method] || []
       end
     end
 
@@ -20,7 +19,6 @@ class RussianWorkdays
     end
 
     def works(year)
-      has_data_for_year?(year)
       (Date.new(year, 1, 1)..Date.new(year, 12, 31)).to_a - holidays(year) - shorts(year)
     end
 
